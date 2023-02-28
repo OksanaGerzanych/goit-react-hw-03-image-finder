@@ -1,6 +1,9 @@
-// import React from 'react';
+import React from 'react';
+import { LoadMore } from './Button.styled';
 // import PropTypes from 'prop-types';
 
 
 
-// export const Button = () => ();
+export const ButtonLoadMore = () => (
+    <LoadMore type='button'>Load More</LoadMore>
+);
