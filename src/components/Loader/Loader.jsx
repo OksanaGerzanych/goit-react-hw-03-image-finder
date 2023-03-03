@@ -1,16 +1,19 @@
 import React from 'react';
-import { Blocks} from 'react-loader-spinner'
+import { ThreeDots } from 'react-loader-spinner';
+import { LoaderStyled } from './Loader.styled';
 
-<Blocks
-  visible={true}
-  height="80"
-  width="80"
-  ariaLabel="blocks-loading"
-  wrapperStyle={{}}
-  wrapperClass="blocks-wrapper"
-/>
-// //import PropTypes from 'prop-types';
-
-// export const Loader = () => (
-//     <button type='button'>Load More</button>
-// );
+export const Loader = () => (
+  <LoaderStyled>
+    <ThreeDots 
+height="80" 
+width="80" 
+radius="9"
+color="#3b28ba" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+ />
+    Load More
+  </LoaderStyled>
+);

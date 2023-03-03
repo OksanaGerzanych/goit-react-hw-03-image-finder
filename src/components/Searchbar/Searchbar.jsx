@@ -1,25 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FcSearch } from 'react-icons/fc';
+import toast from 'react-hot-toast';
 //import PropTypes from 'prop-types';
-import { SearchBar, SearchForm, SearchFormButton, SearchFormButtonLabel, SearchFormInput } from './Searchbar.styled';
+import {
+  SearchBar,
+  SearchForm,
+  SearchFormButton,
+  SearchFormButtonLabel,
+  SearchFormInput,
+} from './Searchbar.styled';
 
+export class Searchbar extends Component {
+  static propTypes = {};
+  state = {
+    imgName: '',
+  };
 
-export const Searchbar = () => {
+  imgNameChange = event => {
+    this.setState({ imgName: event.target.value.toLowerCase() });
+  };
+  handelSubmit = event => {
+    event.preventDefault();
+    if (this.state.imgName.trim() === '') {
+      toast.error('Please enter your search query :)')
+      return;
+    }
+    this.props.onSearch(this.state.imgName);
+    this.setState({ imgName: '' });
+   
+  };
+
+  render() {
+
     return (
-     <SearchBar>
-  <SearchForm>
-    <SearchFormButton type="submit">
-      <SearchFormButtonLabel><FcSearch /></SearchFormButtonLabel>
-    </SearchFormButton>
+      <SearchBar>
+        <SearchForm onSubmit={this.handelSubmit}>
+          <SearchFormButton type="submit">
+            <FcSearch />
+            <SearchFormButtonLabel></SearchFormButtonLabel>
+          </SearchFormButton>
 
-    <SearchFormInput
-      type="text"
-      autocomplete="off"
-      autofocus
-      placeholder="Search images and photos"
-    />
-  </SearchForm>
-</SearchBar>   
-    )
+          <SearchFormInput
+            type="text"
+            name="imgName"
+            autocomplete="off"
+            //autofocus
+            value={this.state.imgName}
+            onChange={this.imgNameChange}
+            placeholder="Search images and photos"
+          />
+        </SearchForm>
+      </SearchBar>
+    );
+  }
 }
-
