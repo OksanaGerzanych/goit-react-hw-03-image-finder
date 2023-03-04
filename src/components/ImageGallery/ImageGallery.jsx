@@ -1,4 +1,4 @@
-import { fetchImage } from 'services/Api'; 
+import { fetchImage } from 'services/api'; 
 import React, { Component } from 'react';
 import { Gallery } from './ImageGallery.styled';
 
