@@ -13,7 +13,6 @@ export class App extends Component {
     textSearch: '',
     modalImg: '',
     showModal: false,
-    id: null,
   };
 
   handelSubmit = textSearch => {
@@ -34,9 +33,15 @@ export class App extends Component {
         <Toaster duration={1500} position="top-right" reverseOrder={false} />
         <GlobalStyle />
         <Searchbar onSearch={this.handelSubmit} />
-        <ImageGallery values={this.state.textSearch} onClick={this.getLargeImg} />
+        <ImageGallery
+          values={this.state.textSearch}
+          onClick={this.getLargeImg}
+        />
         {this.state.showModal && (
-          <Modal largeImageURL={this.state.modalImg} onClose={this.toggleModal} />
+          <Modal
+            largeImageURL={this.state.modalImg}
+            onClose={this.toggleModal}
+          />
         )}
       </Layout>
     );

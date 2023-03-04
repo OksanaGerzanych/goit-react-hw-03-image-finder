@@ -6,10 +6,9 @@ import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { ButtonLoadMore } from 'components/Button/Button';
 
-
 export class ImageGallery extends Component {
   state = {
-    images: null,
+    images: [],
     loading: false,
     error: null,
     page: 1,
@@ -30,7 +29,7 @@ export class ImageGallery extends Component {
           return Promise.reject(new Error(`error ${this.props.prevProps}`));
         })
         .then(images => {
-          this.setState({ images });
+          this.setState({ images: [...this.state.images, ...images.hits] });
         })
         .catch(error => this.setState({ error }))
         .finally(() => {
@@ -50,8 +49,8 @@ export class ImageGallery extends Component {
       <Gallery>
         {this.state.error && <h2>{this.state.error.message}</h2>}
         {this.state.loading && <Loader />}
-        {this.state.images &&
-          this.state.images.hits.map(image => {
+        {this.state.images.length > 0 &&
+          this.state.images.map(image => {
             return (
               <ImageGalleryItem
                 key={image.id}
@@ -60,7 +59,9 @@ export class ImageGallery extends Component {
               />
             );
           })}
-        {this.state.images && <ButtonLoadMore onClick={this.handleLoadMore} />}
+        {this.state.images.length !== 0 && 
+          <ButtonLoadMore onClick={this.handleLoadMore} />
+        }
       </Gallery>
     );
   }

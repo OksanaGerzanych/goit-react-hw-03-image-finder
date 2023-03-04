@@ -22,16 +22,14 @@ export class Searchbar extends Component {
   handelSubmit = event => {
     event.preventDefault();
     if (this.state.imgName.trim() === '') {
-      toast.error('Please enter your search query :)')
+      toast.error('Please enter your search query :)');
       return;
     }
     this.props.onSearch(this.state.imgName);
     this.setState({ imgName: '' });
-   
   };
 
   render() {
-
     return (
       <SearchBar>
         <SearchForm onSubmit={this.handelSubmit}>
@@ -44,7 +42,6 @@ export class Searchbar extends Component {
             type="text"
             name="imgName"
             autocomplete="off"
-            //autofocus
             value={this.state.imgName}
             onChange={this.imgNameChange}
             placeholder="Search images and photos"
