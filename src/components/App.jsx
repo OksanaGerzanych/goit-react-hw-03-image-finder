@@ -13,10 +13,13 @@ export class App extends Component {
     textSearch: '',
     modalImg: '',
     showModal: false,
+    images: [],
+    page: 1,
+   
   };
 
   handelSubmit = textSearch => {
-    this.setState({ textSearch });
+    this.setState({ textSearch, page: 1, images: []});
   };
 
   toggleModal = () => {

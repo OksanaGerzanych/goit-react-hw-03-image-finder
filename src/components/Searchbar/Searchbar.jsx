@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FcSearch } from 'react-icons/fc';
 import toast from 'react-hot-toast';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   SearchBar,
   SearchForm,
@@ -11,7 +11,9 @@ import {
 } from './Searchbar.styled';
 
 export class Searchbar extends Component {
-  static propTypes = {};
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired
+  };
   state = {
     imgName: '',
   };

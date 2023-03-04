@@ -1,4 +1,4 @@
-import { fetchImage } from 'components/Api';
+import { fetchImage } from 'Services/Api';
 import React, { Component } from 'react';
 import { Gallery } from './ImageGallery.styled';
 
@@ -16,27 +16,26 @@ export class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevProps.values !== this.props.values ||
-      prevState.page !== this.state.page
-    ) {
-      this.setState({ loading: true });
-      fetchImage(this.props.values, this.state.page)
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject(new Error(`error ${this.props.prevProps}`));
-        })
-        .then(images => {
-          this.setState({ images: [...this.state.images, ...images.hits] });
-        })
-        .catch(error => this.setState({ error }))
-        .finally(() => {
-          this.setState({ loading: false });
-        });
+    if (prevProps.values !== this.props.values) {
+      this.setState({ images: [], page: 1 });
+      this.getImages();
+    }
+    if (prevState.page !== this.state.page) {
+      this.getImages();
     }
   }
+
+  getImages = () => {
+    this.setState({ loading: true });
+    fetchImage(this.props.values, this.state.page)
+      .then(images => {
+        this.setState({ images: [...this.state.images, ...images.hits] });
+      })
+      .catch(error => this.setState({ error }))
+      .finally(() => {
+        this.setState({ loading: false });
+      });
+  };
 
   handleLoadMore = () => {
     this.setState(prevPage => ({
@@ -45,24 +44,27 @@ export class ImageGallery extends Component {
   };
 
   render() {
+    const {error, images, loading} = this.state
     return (
-      <Gallery>
-        {this.state.error && <h2>{this.state.error.message}</h2>}
-        {this.state.loading && <Loader />}
-        {this.state.images.length > 0 &&
-          this.state.images.map(image => {
-            return (
-              <ImageGalleryItem
-                key={image.id}
-                image={image}
-                onClick={this.props.onClick}
-              />
-            );
-          })}
-        {this.state.images.length !== 0 && 
+      <>
+        <Gallery>
+          {error && <h2>{error.message}</h2>}
+          {images.length > 0 &&
+            images.map(image => {
+              return (
+                <ImageGalleryItem
+                  key={image.id}
+                  image={image}
+                  onClick={this.props.onClick}
+                />
+              );
+            })}
+        </Gallery>
+        {images.length !== 0 && (
           <ButtonLoadMore onClick={this.handleLoadMore} />
-        }
-      </Gallery>
+        )}
+        {loading && <Loader />}
+      </>
     );
   }
 }
